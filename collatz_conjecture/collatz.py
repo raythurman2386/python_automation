@@ -1,10 +1,12 @@
-def collatz(n, s=None):
+from typing import List
+
+def collatz(n: int) -> List[int]:
     # Ensure the number is a positive whole number
     if n <= 0:
-        raise ValueError(f'Please input a value greater than 0! You input {n}.')
+        raise ValueError(f'Please input a value greater than 0! Your input was: {n}.')
     
     if type(n) is not int:
-        raise TypeError(f'Please input a valid positive whole number!')
+        raise TypeError(f'Please input a valid positive whole number! Your input was: {n}')
     
     # Keep a list of the numbers calculated
     sequence = [n]
@@ -24,5 +26,5 @@ def collatz(n, s=None):
     # return the final list
     return sequence
 
-print(collatz(391))
+# print(collatz(391))
 print(collatz(3919377))
