@@ -1,10 +1,11 @@
 import random
 import string
+import sys
 
 class PasswordGenerator:
     def __init__(
         self,
-        length,
+        length=12,
         include_uppercase=True,
         include_lowercase=True,
         include_numbers=True,
@@ -33,7 +34,15 @@ class PasswordGenerator:
         password = ''.join(random.choice(character_pool) for _ in range(self.length))
         return password
 
-# Example usage:
-passwordGenerator = PasswordGenerator(12, True, True, True, True)
-password = passwordGenerator.generate_password()
-print(password)  # Example output: "7xKgPz!cBn2D"
+def main():
+    if len(sys.argv) > 1:
+        custom_length = int(sys.argv[1])
+        passwordGenerator = PasswordGenerator(length=custom_length)
+    else:
+        passwordGenerator = PasswordGenerator()
+
+    password = passwordGenerator.generate_password()
+    print(password)
+
+if __name__ == "__main__":
+    main()
