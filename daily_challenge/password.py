@@ -1,6 +1,7 @@
 import random
 import string
 import sys
+import pyperclip
 
 class PasswordGenerator:
     def __init__(
@@ -42,7 +43,8 @@ def main():
         passwordGenerator = PasswordGenerator()
 
     password = passwordGenerator.generate_password()
-    print(password)
+    pyperclip.copy(password)
+    print(f"Your new password: - {password} - was copied to your clipboard!")
 
 if __name__ == "__main__":
     main()
