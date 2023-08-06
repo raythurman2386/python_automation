@@ -3,3 +3,6 @@ venv
 csv
 **/*.csv
 **/*.png
+build
+dist
+*.spec

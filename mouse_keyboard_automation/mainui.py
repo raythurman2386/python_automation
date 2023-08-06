@@ -32,7 +32,7 @@ running = False
 
 # Create the tkinter GUI
 root = tk.Tk()
-root.title("Mouse Movement")
+root.title("Mouse Automation")
 
 # Start button
 start_button = tk.Button(root, text="Start", command=lambda: threading.Thread(target=start_movement).start())
