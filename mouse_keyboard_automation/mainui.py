@@ -55,7 +55,11 @@ def update_status_label():
             status_label.config(text="Mouse Automation: Running")
         else:
             status_label.config(text="Mouse Automation: Stopped")
-        time.sleep(0.5)
+            
+        x, y = pg.position()
+        if (x, y) in pg.FAILSAFE_POINTS:
+            stop_movement()
+        time.sleep(0.2)
 
 # Start status label update thread
 status_thread = threading.Thread(target=update_status_label)
