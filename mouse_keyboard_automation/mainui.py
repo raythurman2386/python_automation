@@ -34,6 +34,13 @@ running = False
 root = tk.Tk()
 root.title("Mouse Automation")
 
+# Set minimum window size
+root.minsize(300, 150)
+
+# Label to indicate automation status
+status_label = tk.Label(root, text="Mouse Automation: Stopped")
+status_label.pack(pady=10)
+
 # Start button
 start_button = tk.Button(root, text="Start", command=lambda: threading.Thread(target=start_movement).start())
 start_button.pack(pady=10)
@@ -42,5 +49,17 @@ start_button.pack(pady=10)
 stop_button = tk.Button(root, text="Stop", command=stop_movement)
 stop_button.pack(pady=10)
 
+def update_status_label():
+    while True:
+        if running:
+            status_label.config(text="Mouse Automation: Running")
+        else:
+            status_label.config(text="Mouse Automation: Stopped")
+        time.sleep(0.5)
+
+# Start status label update thread
+status_thread = threading.Thread(target=update_status_label)
+status_thread.daemon = True
+status_thread.start()
 # Run the tkinter main loop
 root.mainloop()
