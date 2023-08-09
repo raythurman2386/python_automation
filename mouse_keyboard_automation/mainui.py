@@ -58,7 +58,12 @@ def update_status_label():
             
         x, y = pg.position()
         if (x, y) in pg.FAILSAFE_POINTS:
-            stop_movement()
+            confirmation = pg.confirm('Would you like to stop mouse automation?')
+            print(confirmation)
+            if confirmation == 'OK':
+                stop_movement()
+            else:
+                start_movement()
         time.sleep(0.2)
 
 # Start status label update thread
