@@ -49,6 +49,18 @@ start_button.pack(pady=10)
 stop_button = tk.Button(root, text="Stop", command=stop_movement)
 stop_button.pack(pady=10)
 
+def failsafe_check():
+    x, y = pg.position()
+    if (x, y) in pg.FAILSAFE_POINTS:
+        confirmation = pg.confirm('Would you like to stop mouse automation?')
+        if confirmation == 'OK':
+            stop_movement()
+            update_status_label()
+        else:
+            
+            start_movement()
+            update_status_label()
+            
 def update_status_label():
     while True:
         if running:
@@ -56,14 +68,7 @@ def update_status_label():
         else:
             status_label.config(text="Mouse Automation: Stopped")
             
-        x, y = pg.position()
-        if (x, y) in pg.FAILSAFE_POINTS:
-            confirmation = pg.confirm('Would you like to stop mouse automation?')
-            print(confirmation)
-            if confirmation == 'OK':
-                stop_movement()
-            else:
-                start_movement()
+        failsafe_check()
         time.sleep(0.2)
 
 # Start status label update thread
