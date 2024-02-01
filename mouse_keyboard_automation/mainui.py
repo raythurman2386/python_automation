@@ -51,15 +51,15 @@ stop_button.pack(pady=10)
 
 def failsafe_check():
     x, y = pg.position()
-    if (x, y) in pg.FAILSAFE_POINTS:
-        confirmation = pg.confirm('Would you like to stop mouse automation?')
-        if confirmation == 'OK':
-            stop_movement()
-            update_status_label()
-        else:
-            
-            start_movement()
-            update_status_label()
+    if running:
+        if (x, y) in pg.FAILSAFE_POINTS:
+            confirmation = pg.confirm('Would you like to stop mouse automation?')
+            if confirmation == 'OK':
+                stop_movement()
+                update_status_label()
+            else:
+                start_movement()
+                update_status_label()
             
 def update_status_label():
     while True:
