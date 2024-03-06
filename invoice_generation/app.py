@@ -1,76 +1,128 @@
+# from datetime import date
+# from reportlab.pdfgen import canvas
+# from reportlab.lib.units import cm
+
+# import tkinter as tk
+# from tkinter import ttk, simpledialog
+
+
+# #######################################
+# # The main function 'generate_invoice'
+# # sets up a simple tkinter form,
+# # gets the invoice info, and generates
+# # a PDF based on the entered info
+# #######################################
+# def generate_pdf(event=None):
+#     # Get the invoice amount from the GUI
+#     invoice_amount = int(invoice_amount_entry.get())
+
+#     # Create a PDF file
+#     c = canvas.Canvas("invoice.pdf")
+
+#     # Add the invoice header
+#     c.setFont("Times-Bold", 18)
+#     c.drawCentredString(10 * cm, 2.5 * cm, "Invoice")
+
+#     # Add the invoice details
+#     c.setFont("Times-Roman", 12)
+#     c.setLineWidth(0.5)
+#     c.rect(0.2 * cm, 3.0 * cm, 19.8 * cm, 26.5 * cm)
+#     c.drawString(1 * cm, 5 * cm, "Invoice Number: {}".format("Your invoice number"))
+#     c.drawString(1 * cm, 6 * cm, "Date: {}".format(date.today().strftime("%Y-%m-%d")))
+#     c.drawString(1 * cm, 7 * cm, "Amount: $ {}".format(invoice_amount))
+
+#     # Save and close the PDF file
+#     c.showPage()
+#     c.save()
+
+#     # Display a success message
+#     tk.messagebox.showinfo(
+#         title="Invoice Generated", message="Invoice generated successfully!"
+#     )
+
+#     # Destroy the window
+#     root.destroy()
+
+
+# root = tk.Tk()
+# root.title("Invoice Generator")
+# root.geometry("500x300")
+
+# tk.Label(root, text="Invoice Amount:").grid(row=0, sticky="w")
+# invoice_amount_entry = tk.Entry(root, width=15)
+# invoice_amount_entry.focus()
+# invoice_amount_entry.grid(row=0, column=1)
+
+# generate_btn = tk.Button(root, text="Generate Invoice", command=generate_pdf)
+# generate_btn.grid(row=1, column=0, columnspan=2, sticky="w")
+# cancel_btn = tk.Button(root, text="Cancel", command=root.destroy)
+# cancel_btn.grid(row=2, column=0, columnspan=2, sticky="w")
+
+
+# # Start the program
+# if __name__ == "__main__":
+#     root.mainloop()
+import tkinter as tk
 from datetime import date
 from reportlab.pdfgen import canvas
 from reportlab.lib.units import cm
+from tkinter import Tk, Entry, StringVar, Label, Button
 
-# Set the invoice amount
-invoice_amount = 6253
 
-# Get the current date
-today = date.today()
+def generate_invoice():
+    # Get the invoice amount from the entry
+    invoice_amount = float(invoice_amount_entry.get())
 
-# Create a PDF file
-c = canvas.Canvas("invoice.pdf")
+    # Get the current date
+    today = date.today()
 
-# Add the invoice header
-c.setFont("Times-Bold", 18)
-c.drawCentredString(10 * cm, 2.5 * cm, "Invoice")
+    # Create a PDF file
+    c = canvas.Canvas("invoice.pdf")
 
-# Add the invoice details
-c.setFont("Times-Roman", 12)
-c.setLineWidth(0.5)
-c.rect(0.2 * cm, 3.0 * cm, 19.8 * cm, 26.5 * cm)
-c.drawString(1 * cm, 5 * cm, "Invoice Number: {}".format("Your invoice number"))
-c.drawString(1 * cm, 6 * cm, "Date: {}".format(today.strftime("%Y-%m-%d")))
-c.drawString(1 * cm, 7 * cm, "Amount: $ {}".format(invoice_amount))
+    # Add the invoice header
+    c.setFont("Times-Bold", 18)
+    c.drawCentredString(10 * cm, 2.5 * cm, "Invoice")
 
-# Save and close the PDF file
-c.showPage()
-c.save()
-# from PyPDF2 import PdfFileWriter, PdfFileReader
+    # Add the invoice details
+    c.setFont("Times-Roman", 12)
+    c.setLineWidth(0.5)
+    c.rect(0.2 * cm, 3.0 * cm, 19.8 * cm, 26.5 * cm)
+    c.drawString(1 * cm, 5 * cm, "Invoice Number: {}".format("Your invoice number"))
+    c.drawString(1 * cm, 6 * cm, "Date: {}".format(today.strftime("%Y-%m-%d")))
+    c.drawString(1 * cm, 7 * cm, "Amount: $ {}".format(invoice_amount))
 
-# # Create the contents of your PDF
-# mytext = "$6253"
+    # Save and close the PDF file
+    c.showPage()
+    c.save()
 
-# # Open the file to be written and store it in a variable
-# myfile = open("invoice.pdf", "w+b")
 
-# # Create the PdfFileWriter object that represents the new PDF
-# # with this command any existing file is overwritten
-# writer = PdfFileWriter()
+def create_ui():
+    global invoice_amount_entry, generate_invoice_btn
+    # Create tkinter window
+    window = Tk()
+    window.title("Invoice Generator")
 
-# # Create an invoice object
-# invoice = writer.create_pdf_invoice(mytext)
+    # Create label for entering the invoice amount
+    invoice_amount_lbl = Label(
+        window, text="Enter the invoice amount:  ", justify="left", font="Times 10 bold"
+    )
+    invoice_amount_lbl.pack()
 
-# # Write your new PDF in the file
-# writer.write(myfile)
+    # Create entry for entering the invoice amount
+    invoice_amount_entry = Entry(
+        window, font="Times 12", width=20, justify="center", textvariable=StringVar()
+    )
+    invoice_amount_entry.pack()
 
-# # Close the file
-# myfile.close()
+    # Create generate button
+    generate_invoice_btn = Button(
+        window, text="Generate Invoice", command=generate_invoice
+    )
+    generate_invoice_btn.pack(pady=(2, 3))
 
-# from email.mime.multipart import MIMEMultipart
-# from email.mime.text import MIMEText
-# from email.mime.base import MIMEBase
+    # Start the tkinter event loop
+    window.mainloop()
 
-# # Create an email message
-# msg = MIMEMultipart()
-# msg['From'] = "your email address"
-# msg['To'] = "receiver email address"
-# msg['Subject'] = "Your Invoice"
 
-# # Attach your new PDF
-# att = MIMEBase("application", "octet-stream")
-# att.set_payload(open("invoice.pdf", "rb").read())
-# att.add_header("Content-Disposition", "attachment"; filename="invoice.pdf")
-# msg.attach(att)
-
-# # Send email
-# smtp_server = "your smtp_server"
-# s = smtplib.SMTP(smtp_server)
-# s.starttls()
-# s.sendmail("from", "to", msg.as_string())
-# s.quit()
-
-# from schedule import every
-
-# every().month.on(15).at(“09:00”).do(automate_invoice_creation)
-# schedule.run_pending()
+if __name__ == "__main__":
+    create_ui()
